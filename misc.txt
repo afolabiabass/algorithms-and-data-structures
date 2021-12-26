@@ -1,0 +1,71 @@
+function solution($S) {
+    $chars = [];
+    $len = strlen($S);
+    for($i = 0; $i < $len; $i++) {
+        if (isset($chars[$S[$i]]))  {
+            $chars[$S[$i]] = $chars[$S[$i]] + 1;
+        } else {
+            $chars[$S[$i]] = 1;
+        }
+    }
+    
+    $parts = 1;
+    foreach($chars as $charCount) {
+        $parts *= $charCount;
+    }
+    
+    return $parts;
+}
+
+function solution($S, $K) {
+    $len = strlen($S);
+    $lastChrCount = 1;
+    $newString = '';
+    for($i = 0; $i < $len; $i++) {
+        if ($i > 0 && $S[$i] != $S[$i - 1]) {
+            if ($lastChrCount > 1) {
+                $newString = substr($S, 0, $i - 1) . substr($S, $i, $i + $K - 1) . substr($S, $i + $K, $len);
+                break;
+            }
+            $lastChrCount = 1; 
+        } else {
+            $lastChrCount++;
+        }
+    }
+    
+    $len = strlen($newString);
+    $compressedString = '';
+    $lastChrCount = 1;
+    for($i = 0; $i < $len; $i++) {
+        if ($i > 0 && $newString[$i] != $newString[$i - 1]) {
+            $compressedString .= $newString[$i] . "{$lastChrCount}";
+            $lastChrCount = 1; 
+        } else {
+            $lastChrCount++;
+        }
+    }
+    
+    return strlen($compressedString);
+    
+}
+
+function solution($A) {
+    sort($A);
+    $len = count($A);
+    $min = 1;
+    $found = false;
+    for($x = 0; $x < $len - 1; $x++) {
+        if ($A[$x] + 1 != $A[$x + 1]) {
+            if ($A[$x] + 1 > 0) {
+                $found = true;
+                $min = $A[$x] + 1;
+            }
+        }
+    }
+    
+    if ($found === false && $A[$len - 1] + 1 > 0) {
+        $min = $A[$len - 1] + 1;
+    }
+    
+    return $min;
+}
